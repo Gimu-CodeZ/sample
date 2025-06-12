@@ -1,26 +1,26 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from 'next/font/google';
+import type { Metadata, Viewport } from "next";
+import { Inter } from 'next/font/google';
 import "./globals.css";
 import type React from "react"
 import Providers from './providers'
 import BootstrapClient from "@/components/BootstrapClient"
-import { UserProvider } from '@auth0/nextjs-auth0/client'
 import { TRPCProvider } from './trpc-provider'
 
-const geistSans = Geist({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-geist-sans',
+  variable: '--font-inter',
 });
 
-const geistMono = Geist_Mono({
-  subsets: ['latin'],
-  variable: '--font-geist-mono',
-});
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: "Mobile Chatbot",
   description: "Mobile-friendly chatbot interface",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
 export default function RootLayout({
@@ -29,20 +29,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={geistSans.className}>
+    <html lang="en" className={inter.className}>
       <head>
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`} style={{ margin: 0, padding: 0 }}>
-        <UserProvider>
+      <body className={inter.variable} style={{ margin: 0, padding: 0 }}>
+        <Providers>
           <TRPCProvider>
-            <Providers>{children}</Providers>
+            {children}
           </TRPCProvider>
           <BootstrapClient />
-        </UserProvider>
+        </Providers>
       </body>
     </html>
   );
